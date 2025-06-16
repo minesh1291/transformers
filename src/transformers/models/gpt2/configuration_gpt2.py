@@ -13,9 +13,11 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-""" OpenAI GPT-2 configuration"""
+"""OpenAI GPT-2 configuration"""
+
 from collections import OrderedDict
-from typing import Any, List, Mapping, Optional
+from collections.abc import Mapping
+from typing import Any, List, Optional
 
 from ... import PreTrainedTokenizer, TensorType, is_torch_available
 from ...configuration_utils import PretrainedConfig
@@ -24,9 +26,6 @@ from ...utils import logging
 
 
 logger = logging.get_logger(__name__)
-
-
-from ..deprecated._archive_maps import GPT2_PRETRAINED_CONFIG_ARCHIVE_MAP  # noqa: F401, E402
 
 
 class GPT2Config(PretrainedConfig):
@@ -196,7 +195,7 @@ class GPT2OnnxConfig(OnnxConfigWithPast):
         self,
         config: PretrainedConfig,
         task: str = "default",
-        patching_specs: List[PatchingSpec] = None,
+        patching_specs: Optional[List[PatchingSpec]] = None,
         use_past: bool = False,
     ):
         super().__init__(config, task=task, patching_specs=patching_specs, use_past=use_past)
@@ -270,3 +269,6 @@ class GPT2OnnxConfig(OnnxConfigWithPast):
     @property
     def default_onnx_opset(self) -> int:
         return 13
+
+
+__all__ = ["GPT2Config", "GPT2OnnxConfig"]

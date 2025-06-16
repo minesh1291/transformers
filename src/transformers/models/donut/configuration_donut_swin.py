@@ -12,16 +12,13 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-""" Donut Swin Transformer model configuration"""
+"""Donut Swin Transformer model configuration"""
 
 from ...configuration_utils import PretrainedConfig
 from ...utils import logging
 
 
 logger = logging.get_logger(__name__)
-
-
-from ..deprecated._archive_maps import DONUT_SWIN_PRETRAINED_CONFIG_ARCHIVE_MAP  # noqa: F401, E402
 
 
 class DonutSwinConfig(PretrainedConfig):
@@ -133,3 +130,6 @@ class DonutSwinConfig(PretrainedConfig):
         # we set the hidden_size attribute in order to make Swin work with VisionEncoderDecoderModel
         # this indicates the channel dimension after the last stage of the model
         self.hidden_size = int(embed_dim * 2 ** (len(depths) - 1))
+
+
+__all__ = ["DonutSwinConfig"]

@@ -12,16 +12,13 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-""" ViT MAE model configuration"""
+"""ViT MAE model configuration"""
 
 from ...configuration_utils import PretrainedConfig
 from ...utils import logging
 
 
 logger = logging.get_logger(__name__)
-
-
-from ..deprecated._archive_maps import VIT_MAE_PRETRAINED_CONFIG_ARCHIVE_MAP  # noqa: F401, E402
 
 
 class ViTMAEConfig(PretrainedConfig):
@@ -138,3 +135,6 @@ class ViTMAEConfig(PretrainedConfig):
         self.decoder_intermediate_size = decoder_intermediate_size
         self.mask_ratio = mask_ratio
         self.norm_pix_loss = norm_pix_loss
+
+
+__all__ = ["ViTMAEConfig"]

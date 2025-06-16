@@ -14,55 +14,100 @@ rendered properly in your Markdown viewer.
 
 -->
 
-# ALBERT
-
-<div class="flex flex-wrap space-x-1">
-<a href="https://huggingface.co/models?filter=albert">
-<img alt="Models" src="https://img.shields.io/badge/All_model_pages-albert-blueviolet">
-</a>
-<a href="https://huggingface.co/spaces/docs-demos/albert-base-v2">
-<img alt="Spaces" src="https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Spaces-blue">
-</a>
+<div style="float: right;">
+    <div class="flex flex-wrap space-x-1">
+        <img alt="PyTorch" src="https://img.shields.io/badge/PyTorch-DE3412?style=flat&logo=pytorch&logoColor=white" >
+        <img alt= "TensorFlow" src= "https://img.shields.io/badge/TensorFlow-FF6F00?style=flat&logo=tensorflow&logoColor=white" >
+        <img alt= "Flax" src="https://img.shields.io/badge/Flax-29a79b.svg?style…Nu+W0m6K/I9gGPd/dfx/EN/wN62AhsBWuAAAAAElFTkSuQmCC">
+        <img alt="SDPA" src= "https://img.shields.io/badge/SDPA-DE3412?style=flat&logo=pytorch&logoColor=white" > 
+    </div>
 </div>
 
-## Overview
+# ALBERT
 
-The ALBERT model was proposed in [ALBERT: A Lite BERT for Self-supervised Learning of Language Representations](https://arxiv.org/abs/1909.11942) by Zhenzhong Lan, Mingda Chen, Sebastian Goodman, Kevin Gimpel, Piyush Sharma,
-Radu Soricut. It presents two parameter-reduction techniques to lower memory consumption and increase the training
-speed of BERT:
+[ALBERT](https://huggingface.co/papers/1909.11942) is designed to address memory limitations of scaling and training of [BERT](./bert). It adds two parameter reduction techniques. The first, factorized embedding parametrization, splits the larger vocabulary embedding matrix into two smaller matrices so you can grow the hidden size without adding a lot more parameters. The second, cross-layer parameter sharing, allows layer to share parameters which keeps the number of learnable parameters lower.
 
-- Splitting the embedding matrix into two smaller matrices.
-- Using repeating layers split among groups.
+<<<<<<< HEAD
+=======
 
-The abstract from the paper is the following:
+<<<<<<< HEAD
+ALBERT was created to address problems like -- GPU/TPU memory limitations, longer training times, and unexpected model degradation in BERT. ALBERT uses two parameter-reduction techniques to lower memory consumption and increase the training speed of BERT:
 
-*Increasing model size when pretraining natural language representations often results in improved performance on
-downstream tasks. However, at some point further model increases become harder due to GPU/TPU memory limitations,
-longer training times, and unexpected model degradation. To address these problems, we present two parameter-reduction
-techniques to lower memory consumption and increase the training speed of BERT. Comprehensive empirical evidence shows
-that our proposed methods lead to models that scale much better compared to the original BERT. We also use a
-self-supervised loss that focuses on modeling inter-sentence coherence, and show it consistently helps downstream tasks
-with multi-sentence inputs. As a result, our best model establishes new state-of-the-art results on the GLUE, RACE, and
-SQuAD benchmarks while having fewer parameters compared to BERT-large.*
+- **Factorized embedding parameterization:** The large vocabulary embedding matrix is decomposed into two smaller matrices, reducing memory consumption.
+- **Cross-layer parameter sharing:** Instead of learning separate parameters for each transformer layer, ALBERT shares parameters across layers, further reducing the number of learnable weights.
 
-This model was contributed by [lysandre](https://huggingface.co/lysandre). This model jax version was contributed by
-[kamalkraj](https://huggingface.co/kamalkraj). The original code can be found [here](https://github.com/google-research/ALBERT).
+ALBERT uses absolute position embeddings (like BERT) so padding is applied at right. Size of embeddings is 128 While BERT uses 768. ALBERT can processes maximum 512 token at a time. 
+>>>>>>> 7ba1110083 (Update docs/source/en/model_doc/albert.md)
 
-## Usage tips
+=======
+>>>>>>> 155b733538 (Update albert.md)
+You can find all the original ALBERT checkpoints under the [ALBERT community](https://huggingface.co/albert) organization.
 
-- ALBERT is a model with absolute position embeddings so it's usually advised to pad the inputs on the right rather
-  than the left.
-- ALBERT uses repeating layers which results in a small memory footprint, however the computational cost remains
-  similar to a BERT-like architecture with the same number of hidden layers as it has to iterate through the same
-  number of (repeating) layers.
-- Embedding size E is different from hidden size H justified because the embeddings are context independent (one embedding vector represents one token), whereas hidden states are context dependent (one hidden state represents a sequence of tokens) so it's more logical to have H >> E. Also, the embedding matrix is large since it's V x E (V being the vocab size). If E < H, it has less parameters.
-- Layers are split in groups that share parameters (to save memory).
-Next sentence prediction is replaced by a sentence ordering prediction: in the inputs, we have two sentences A and B (that are consecutive) and we either feed A followed by B or B followed by A. The model must predict if they have been swapped or not.
+> [!TIP]
+> Click on the ALBERT models in the right sidebar for more examples of how to apply ALBERT to different language tasks.
+
+The example below demonstrates how to predict the `[MASK]` token with [`Pipeline`], [`AutoModel`], and from the command line.
+
+<hfoptions id="usage">
+<hfoption id="Pipeline">
+
+```py 
+import torch
+from transformers import pipeline
+
+pipeline = pipeline(
+    task="fill-mask",
+    model="albert-base-v2",
+    torch_dtype=torch.float16,
+    device=0
+)
+pipeline("Plants create [MASK] through a process known as photosynthesis.", top_k=5)
+```
+
+</hfoption>
+<hfoption id="AutoModel">
+
+```py
+import torch
+from transformers import AutoModelForMaskedLM, AutoTokenizer
+
+tokenizer = AutoTokenizer.from_pretrained("albert/albert-base-v2")
+model = AutoModelForMaskedLM.from_pretrained(
+    "albert/albert-base-v2",
+    torch_dtype=torch.float16,
+    attn_implementation="sdpa",
+    device_map="auto"
+)
+
+prompt = "Plants create energy through a process known as [MASK]."
+inputs = tokenizer(prompt, return_tensors="pt").to(model.device) 
+
+with torch.no_grad():
+    outputs = model(**inputs)
+    mask_token_index = torch.where(inputs["input_ids"] == tokenizer.mask_token_id)[1]
+    predictions = outputs.logits[0, mask_token_index]
+
+top_k = torch.topk(predictions, k=5).indices.tolist()
+for token_id in top_k[0]:
+    print(f"Prediction: {tokenizer.decode([token_id])}")
+```
+
+</hfoption>
+<hfoption id="transformers CLI">
+
+```bash
+echo -e "Plants create [MASK] through a process known as photosynthesis." | transformers run --task fill-mask --model albert-base-v2 --device 0
+```
+
+</hfoption>
+
+</hfoptions>
 
 
+## Notes
 
-This model was contributed by [lysandre](https://huggingface.co/lysandre). This model jax version was contributed by
-[kamalkraj](https://huggingface.co/kamalkraj). The original code can be found [here](https://github.com/google-research/ALBERT).
+- Inputs should be padded on the right because BERT uses absolute position embeddings.
+- The embedding size `E` is different from the hidden size `H` because the embeddings are context independent (one embedding vector represents one token) and the hidden states are context dependent (one hidden state represents a sequence of tokens). The embedding matrix is also larger because `V x E` where `V` is the vocabulary size. As a result, it's more logical if `H >> E`. If `E < H`, the model has less parameters.
 
 
 ## Resources

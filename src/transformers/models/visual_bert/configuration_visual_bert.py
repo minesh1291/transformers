@@ -12,16 +12,13 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-""" VisualBERT model configuration"""
+"""VisualBERT model configuration"""
 
 from ...configuration_utils import PretrainedConfig
 from ...utils import logging
 
 
 logger = logging.get_logger(__name__)
-
-
-from ..deprecated._archive_maps import VISUAL_BERT_PRETRAINED_CONFIG_ARCHIVE_MAP  # noqa: F401, E402
 
 
 class VisualBertConfig(PretrainedConfig):
@@ -133,3 +130,6 @@ class VisualBertConfig(PretrainedConfig):
         self.layer_norm_eps = layer_norm_eps
         self.bypass_transformer = bypass_transformer
         self.special_visual_initialize = special_visual_initialize
+
+
+__all__ = ["VisualBertConfig"]

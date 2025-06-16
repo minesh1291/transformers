@@ -12,16 +12,13 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-""" MGP-STR model configuration"""
+"""MGP-STR model configuration"""
 
 from ...configuration_utils import PretrainedConfig
 from ...utils import logging
 
 
 logger = logging.get_logger(__name__)
-
-
-from ..deprecated._archive_maps import MGP_STR_PRETRAINED_CONFIG_ARCHIVE_MAP  # noqa: F401, E402
 
 
 class MgpstrConfig(PretrainedConfig):
@@ -135,3 +132,6 @@ class MgpstrConfig(PretrainedConfig):
         self.drop_path_rate = drop_path_rate
         self.output_a3_attentions = output_a3_attentions
         self.initializer_range = initializer_range
+
+
+__all__ = ["MgpstrConfig"]

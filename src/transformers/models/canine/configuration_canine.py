@@ -12,16 +12,13 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-""" CANINE model configuration"""
+"""CANINE model configuration"""
 
 from ...configuration_utils import PretrainedConfig
 from ...utils import logging
 
 
 logger = logging.get_logger(__name__)
-
-
-from ..deprecated._archive_maps import CANINE_PRETRAINED_CONFIG_ARCHIVE_MAP  # noqa: F401, E402
 
 
 class CanineConfig(PretrainedConfig):
@@ -139,3 +136,6 @@ class CanineConfig(PretrainedConfig):
         self.num_hash_functions = num_hash_functions
         self.num_hash_buckets = num_hash_buckets
         self.local_transformer_stride = local_transformer_stride
+
+
+__all__ = ["CanineConfig"]

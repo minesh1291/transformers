@@ -12,10 +12,11 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-""" GPT Neo model configuration"""
+"""GPT Neo model configuration"""
 
 from collections import OrderedDict
-from typing import Any, Mapping, Optional
+from collections.abc import Mapping
+from typing import Any, Optional
 
 from ... import PreTrainedTokenizer, TensorType, is_torch_available
 from ...configuration_utils import PretrainedConfig
@@ -24,9 +25,6 @@ from ...utils import logging
 
 
 logger = logging.get_logger(__name__)
-
-
-from ..deprecated._archive_maps import GPT_NEO_PRETRAINED_CONFIG_ARCHIVE_MAP  # noqa: F401, E402
 
 
 class GPTNeoConfig(PretrainedConfig):
@@ -270,3 +268,6 @@ class GPTNeoOnnxConfig(OnnxConfigWithPast):
     @property
     def default_onnx_opset(self) -> int:
         return 13
+
+
+__all__ = ["GPTNeoConfig", "GPTNeoOnnxConfig"]

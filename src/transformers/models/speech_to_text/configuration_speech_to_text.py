@@ -12,16 +12,13 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-""" Speech2Text model configuration"""
+"""Speech2Text model configuration"""
 
 from ...configuration_utils import PretrainedConfig
 from ...utils import logging
 
 
 logger = logging.get_logger(__name__)
-
-
-from ..deprecated._archive_maps import SPEECH_TO_TEXT_PRETRAINED_CONFIG_ARCHIVE_MAP  # noqa: F401, E402
 
 
 class Speech2TextConfig(PretrainedConfig):
@@ -52,10 +49,10 @@ class Speech2TextConfig(PretrainedConfig):
         decoder_attention_heads (`int`, *optional*, defaults to 4):
             Number of attention heads for each attention layer in the Transformer decoder.
         encoder_layerdrop (`float`, *optional*, defaults to 0.0):
-            The LayerDrop probability for the encoder. See the [LayerDrop paper](https://arxiv.org/abs/1909.11556) for
+            The LayerDrop probability for the encoder. See the [LayerDrop paper](https://huggingface.co/papers/1909.11556) for
             more details.
         decoder_layerdrop (`float`, *optional*, defaults to 0.0):
-            The LayerDrop probability for the decoder. See the [LayerDrop paper](https://arxiv.org/abs/1909.11556) for
+            The LayerDrop probability for the decoder. See the [LayerDrop paper](https://huggingface.co/papers/1909.11556) for
             more details.
         use_cache (`bool`, *optional*, defaults to `True`):
             Whether the model should return the last key/values attentions (not used by all models).
@@ -197,3 +194,6 @@ class Speech2TextConfig(PretrainedConfig):
             decoder_start_token_id=decoder_start_token_id,
             **kwargs,
         )
+
+
+__all__ = ["Speech2TextConfig"]

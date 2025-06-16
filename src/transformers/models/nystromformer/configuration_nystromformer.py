@@ -12,16 +12,13 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-""" Nystromformer model configuration"""
+"""Nystromformer model configuration"""
 
 from ...configuration_utils import PretrainedConfig
 from ...utils import logging
 
 
 logger = logging.get_logger(__name__)
-
-
-from ..deprecated._archive_maps import NYSTROMFORMER_PRETRAINED_CONFIG_ARCHIVE_MAP  # noqa: F401, E402
 
 
 class NystromformerConfig(PretrainedConfig):
@@ -130,3 +127,6 @@ class NystromformerConfig(PretrainedConfig):
         self.inv_coeff_init_option = inv_coeff_init_option
         self.layer_norm_eps = layer_norm_eps
         super().__init__(pad_token_id=pad_token_id, bos_token_id=bos_token_id, eos_token_id=eos_token_id, **kwargs)
+
+
+__all__ = ["NystromformerConfig"]

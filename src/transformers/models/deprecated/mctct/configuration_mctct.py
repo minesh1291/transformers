@@ -21,9 +21,6 @@ from ....utils import logging
 logger = logging.get_logger(__name__)
 
 
-from .._archive_maps import MCTCT_PRETRAINED_CONFIG_ARCHIVE_MAP  # noqa: F401, E402
-
-
 class MCTCTConfig(PretrainedConfig):
     r"""
     This is the configuration class to store the configuration of a [`MCTCTModel`]. It is used to instantiate an
@@ -182,3 +179,6 @@ class MCTCTConfig(PretrainedConfig):
                 f"but is `len(config.conv_kernel) = {len(self.conv_kernel)}`, "
                 f"`config.num_conv_layers = {self.num_conv_layers}`."
             )
+
+
+__all__ = ["MCTCTConfig"]

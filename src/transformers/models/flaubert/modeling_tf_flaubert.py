@@ -13,9 +13,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 """
- TF 2.0 Flaubert model.
+TF 2.0 Flaubert model.
 """
-
 
 from __future__ import annotations
 
@@ -66,9 +65,6 @@ logger = logging.get_logger(__name__)
 
 _CHECKPOINT_FOR_DOC = "flaubert/flaubert_base_cased"
 _CONFIG_FOR_DOC = "FlaubertConfig"
-
-
-from ..deprecated._archive_maps import TF_FLAUBERT_PRETRAINED_MODEL_ARCHIVE_LIST  # noqa: F401, E402
 
 
 FLAUBERT_START_DOCSTRING = r"""
@@ -812,7 +808,7 @@ class TFFlaubertWithLMHeadModelOutput(ModelOutput):
             heads.
     """
 
-    logits: tf.Tensor = None
+    logits: Optional[tf.Tensor] = None
     hidden_states: Tuple[tf.Tensor] | None = None
     attentions: Tuple[tf.Tensor] | None = None
 
@@ -1335,3 +1331,14 @@ class TFFlaubertForMultipleChoice(TFFlaubertPreTrainedModel, TFMultipleChoiceLos
         if getattr(self, "logits_proj", None) is not None:
             with tf.name_scope(self.logits_proj.name):
                 self.logits_proj.build([None, None, self.config.num_labels])
+
+
+__all__ = [
+    "TFFlaubertForMultipleChoice",
+    "TFFlaubertForQuestionAnsweringSimple",
+    "TFFlaubertForSequenceClassification",
+    "TFFlaubertForTokenClassification",
+    "TFFlaubertModel",
+    "TFFlaubertPreTrainedModel",
+    "TFFlaubertWithLMHeadModel",
+]

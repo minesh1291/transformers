@@ -12,8 +12,9 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-""" T5 model configuration"""
-from typing import Mapping
+"""T5 model configuration"""
+
+from collections.abc import Mapping
 
 from ...configuration_utils import PretrainedConfig
 from ...onnx import OnnxSeq2SeqConfigWithPast
@@ -21,9 +22,6 @@ from ...utils import logging
 
 
 logger = logging.get_logger(__name__)
-
-
-from ..deprecated._archive_maps import T5_PRETRAINED_CONFIG_ARCHIVE_MAP  # noqa: F401, E402
 
 
 class T5Config(PretrainedConfig):
@@ -75,7 +73,12 @@ class T5Config(PretrainedConfig):
 
     model_type = "t5"
     keys_to_ignore_at_inference = ["past_key_values"]
-    attribute_map = {"hidden_size": "d_model", "num_attention_heads": "num_heads", "num_hidden_layers": "num_layers"}
+    attribute_map = {
+        "hidden_size": "d_model",
+        "num_attention_heads": "num_heads",
+        "num_hidden_layers": "num_layers",
+        "head_dim": "d_kv",
+    }
 
     def __init__(
         self,
@@ -163,3 +166,6 @@ class T5OnnxConfig(OnnxSeq2SeqConfigWithPast):
     @property
     def default_onnx_opset(self) -> int:
         return 13
+
+
+__all__ = ["T5Config", "T5OnnxConfig"]

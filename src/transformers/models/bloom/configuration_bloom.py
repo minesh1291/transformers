@@ -12,9 +12,11 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-""" Bloom configuration"""
+"""Bloom configuration"""
+
 from collections import OrderedDict
-from typing import TYPE_CHECKING, Any, List, Mapping, Optional
+from collections.abc import Mapping
+from typing import TYPE_CHECKING, Any, List, Optional
 
 from packaging import version
 
@@ -28,9 +30,6 @@ from ...utils import is_torch_available, logging
 
 
 logger = logging.get_logger(__name__)
-
-
-from ..deprecated._archive_maps import BLOOM_PRETRAINED_CONFIG_ARCHIVE_MAP  # noqa: F401, E402
 
 
 class BloomConfig(PretrainedConfig):
@@ -150,7 +149,7 @@ class BloomOnnxConfig(OnnxConfigWithPast):
         self,
         config: PretrainedConfig,
         task: str = "default",
-        patching_specs: List[PatchingSpec] = None,
+        patching_specs: Optional[List[PatchingSpec]] = None,
         use_past: bool = False,
     ):
         super().__init__(config, task=task, patching_specs=patching_specs, use_past=use_past)
@@ -234,3 +233,6 @@ class BloomOnnxConfig(OnnxConfigWithPast):
     @property
     def default_onnx_opset(self) -> int:
         return 13
+
+
+__all__ = ["BloomConfig", "BloomOnnxConfig"]

@@ -12,16 +12,13 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-""" GPTBigCode configuration"""
+"""GPTBigCode configuration"""
 
 from ...configuration_utils import PretrainedConfig
 from ...utils import logging
 
 
 logger = logging.get_logger(__name__)
-
-
-from ..deprecated._archive_maps import GPT_BIGCODE_PRETRAINED_CONFIG_ARCHIVE_MAP  # noqa: F401, E402
 
 
 class GPTBigCodeConfig(PretrainedConfig):
@@ -142,3 +139,6 @@ class GPTBigCodeConfig(PretrainedConfig):
         self.eos_token_id = eos_token_id
 
         super().__init__(bos_token_id=bos_token_id, eos_token_id=eos_token_id, **kwargs)
+
+
+__all__ = ["GPTBigCodeConfig"]
